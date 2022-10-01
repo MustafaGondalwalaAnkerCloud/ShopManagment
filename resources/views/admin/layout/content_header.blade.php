@@ -7,6 +7,9 @@
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
+            @isset($subPage)
+            <li class="breadcrumb-item"><a href="{{ $subPageUrl }}">{{$subPage}}</a></li>
+            @endisset()
             <li class="breadcrumb-item active">{{ $currenct_page }}</li>
           </ol>
         </div>

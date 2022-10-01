@@ -1,6 +1,6 @@
 @extends('admin.layout.app')
 @section('content')
-@include('admin.layout.content_header', ['header' => 'Product', 'currenct_page' => 'Add'])
+@include('admin.layout.content_header', ['header' => 'Product', 'currenct_page' => 'Add','subPage' => "Product", 'subPageUrl' => route('admin.product.list')])
 
 <section class="content">
     <div class="container-fluid">
@@ -41,20 +41,12 @@
                             </div>
                             <div class="form-group">
                                 <label for="category_id">Category</label>
-                                <select type="text" name="category_id" class="form-control" id="category_id">
-                                    <option value="">None</option>
-                                    @if($allParentCategories)
-                                        @foreach($allParentCategories as $parentCategory)
-                                        <option {{$parentCategory->id == @$product->category_id ? "selected='selected'" : ""}} value="{{$parentCategory->id}}">{{$parentCategory->name}}</option>
-                                        @endforeach
-                                    @endif
-                                </select>
+                                @include('admin.product.utils.allCategories', ['categoryId' => @$product->category_id])
+                                
                             </div>
                             <div class="form-group">
                                 <label for="sub_category_id">Sub Category</label>
-                                <select class="form-control" name="sub_category_id" id="sub_category_id">
-                                    <option>None</option>
-                                </select>
+                                @include('admin.product.utils.allSubCategories', ['categoryId' => @$product->category_id,'subCategoryId' => @$product->sub_category_id])
                             </div>
 
                             <div class="form-group">
@@ -91,31 +83,4 @@
         </div>
     </div>
 </section>
-@endsection
-@section('footer')
-<script>
-    $("#category_id").change(function(e){
-        e.preventDefault();
-
-        const category_id = $(this).val();
-        $.ajax({
-            url:`{{ route('category.all') }}/${category_id}`,
-            method:'get',
-            success : function(response){
-                if(response.success == true){
-                    const { data } = response;
-                    
-                    $("#sub_category_id").html("<option>None</option>");
-
-                    data.map(function(d){
-                    $("#sub_category_id").append(`<option value="${d.id}">
-                                       ${d.name}
-                                  </option>`);
-                    })
-                }
-            }   
-        })
-
-    })
-</script>
 @endsection
