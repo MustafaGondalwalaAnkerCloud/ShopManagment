@@ -60,6 +60,12 @@
                                 <p>Category</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{route('admin.product.list')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Product</p>
+                            </a>
+                        </li>
                     </ul>
                 </nav>
             </div>

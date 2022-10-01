@@ -16,14 +16,11 @@ class ProductService
         if ($request->name != '') {
             $data->where('name', 'like', '%'.$request->name.'%');
         }
-        if ($request->parent_id != '') {
-            $data->where('parent_id', $request->parent_id);
-        }
 
         return DataTables::of($data)
             ->addColumn('action', function ($value) {
-                $editRoute = route('admin.category.add', ['category' => $value->encrypted_id]);
-                $deleteRoute = route('admin.category.delete', ['category' => $value->encrypted_id]);
+                $editRoute = route('admin.product.add', ['product' => $value->encrypted_id]);
+                $deleteRoute = route('admin.product.delete', ['product' => $value->encrypted_id]);
 
                 $editButton = '<a class="btn btn-sm btn-warning" href="'.$editRoute.'">Edit</a>';
                 $deleteForm = '<form method="POST" action="'.$deleteRoute.'">
@@ -41,15 +38,12 @@ class ProductService
             ->addColumn('status', function ($row) {
                 return @$row->status == 1 ? 'Active' : 'InActive';
             })
-            ->addColumn('isParentCategory', function ($row) {
-                return @$row->parent_id == null ? 'true' : '';
-            })
             ->rawColumns(['action','isParentCategory'])
             ->make(true);
     }
-    public function addUpdate(Product $category, Array $data): Product{
+    public function addUpdate(Product $product, Array $data): Product{
         return Product::updateOrCreate(
-            ['id' => $category->exists == true ? $category->id : null],
+            ['id' => $product->exists == true ? $product->id : null],
             $data
         );
     }

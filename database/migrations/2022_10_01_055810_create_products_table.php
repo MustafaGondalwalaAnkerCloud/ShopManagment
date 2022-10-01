@@ -24,6 +24,7 @@ return new class extends Migration
             $table->double('sale_price');
             $table->integer('category_id')->nullable()->constrained('categories');
             $table->integer('sub_category_id')->nullable()->constrained('categories');
+            $table->boolean('status')->default(true);
             $table->timestamps();
             $table->softDeletes();
         });

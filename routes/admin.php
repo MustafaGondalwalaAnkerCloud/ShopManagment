@@ -36,9 +36,9 @@ Route::group(['middleware' => ['admin.auth'], 'as' => 'admin.'], function () {
         Route::match(['DELETE'], 'delete/{category?}', [CategoryController::class, 'delete'])->name('delete');
     });
     Route::group(['prefix' => 'product','as' =>'product.'],function(){
-        Route::get('list', [CategoryController::class, 'list'])->name('list');
-        Route::get('add/{category?}', [CategoryController::class, 'add'])->name('add');
-        Route::post('add/{category?}', [CategoryController::class, 'store'])->name('store');
-        Route::match(['DELETE'], 'delete/{category?}', [CategoryController::class, 'delete'])->name('delete');
+        Route::get('list', [ProductController::class, 'list'])->name('list');
+        Route::get('add/{product?}', [ProductController::class, 'add'])->name('add');
+        Route::post('add/{product?}', [ProductController::class, 'store'])->name('store');
+        Route::match(['DELETE'], 'delete/{product?}', [ProductController::class, 'delete'])->name('delete');
     });
 });

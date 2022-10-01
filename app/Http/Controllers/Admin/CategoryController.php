@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Services\Admin\AdminService;
 use App\Models\Admin;
 use App\Http\Requests\CategoryRequest;
+use App\Models\Category;
 use App\Models\Product;
 use App\Services\CategoryService;
 use App\Services\ProductService;
@@ -70,7 +71,7 @@ class CategoryController extends Controller
             return back()->with('message', 'Error Occured');
         }
     }
-    public function delete(Product $category){
+    public function delete(Product $product){
         try {
             logger()->info('Product Delete', ['category' => $category->toArray()]);
 
@@ -79,6 +80,22 @@ class CategoryController extends Controller
             return redirect()->route('admin.category.list')->with('message', 'Product Deleted Successfully');
         } catch (\Exception $e) {
             logger()->error('Product Delete Error', ['category' => $category->toArray()]);
+
+            return back()->with('message', 'Error Occured');
+        }
+    }
+    public function getAllSubCategories(Request $request, Category $category){
+        try {
+            logger()->info('Get All Sub Categories', ['category' => $category->toArray()]);
+            $category->load('subcategory');
+            return [
+                "message" => "All Sub Categories",
+                "data" => $category->subcategory,
+                "success" => true
+            ];
+
+        } catch (\Exception $e) {
+            logger()->error('Get All Sub Categories Error', ['category' => $category->toArray(), $request->all()]);
 
             return back()->with('message', 'Error Occured');
         }
